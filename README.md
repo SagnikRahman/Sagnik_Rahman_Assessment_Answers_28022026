@@ -1,4 +1,4 @@
-# Sagnik Rahman — Training Repository
+# Sagnik Rahman - Training Repository
 
 **Name:** Sagnik Rahman
 **Batch:** 1
