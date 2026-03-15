@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:p="http://www.springframework.org/schema/p"
+	xmlns:c="http://www.springframework.org/schema/c"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans 
+	http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+	<!-- bean definitions here -->
+
+	<bean name="student" class="com.capgemini.spring2.Student">
+		<property name="id" value="100"></property>
+		<property name="name" value="Steve"></property>
+		<property name="gender" value="Male"></property>
+		<property name="marks" value="90"></property>
+	</bean>
+
+	<bean name="employee" class="com.capgemini.spring2.Employee" autowire="byType">
+		<property name="id" value="1234"></property>
+		<property name="name" value="Raj"></property>
+		<property name="email" value="raj@gmail.com"></property>
+		<property name="salary" value="45000.00"></property>	
+		<!-- <property name="student" ref="student1"></property> -->
+	
+	</bean>
+	
+	<!-- <bean name="student1" class="com.capgemini.spring2.Student">
+		<constructor-arg value="103"></constructor-arg>
+		<constructor-arg value="James"></constructor-arg>
+		<constructor-arg value="Male"></constructor-arg>
+		<constructor-arg value="95"></constructor-arg>	
+	
+	</bean> -->
+
+	<bean name="string" class="java.lang.String">
+		<constructor-arg value="Hello"></constructor-arg>
+	</bean>
+	
+</beans>
