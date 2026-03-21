@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<title>Orders</title>
+
+<link
+	href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
+	rel="stylesheet">
+
+<style>
+body {
+	background: #f4f6f9;
+}
+
+.sidebar {
+	height: 100vh;
+	width: 230px;
+	position: fixed;
+	background: #1f2937;
+	padding: 20px;
+}
+
+.sidebar h4 {
+	color: white;
+}
+
+.sidebar a {
+	display: block;
+	color: #9ca3af;
+	text-decoration: none;
+	padding: 10px;
+	border-radius: 8px;
+}
+
+.sidebar a:hover {
+	background: #374151;
+	color: white;
+}
+
+.content {
+	margin-left: 250px;
+	padding: 20px;
+}
+
+.card {
+	border-radius: 12px;
+}
+</style>
+</head>
+
+<body>
+
+	<!-- Sidebar -->
+	<div class="sidebar">
+		<h4>Admin</h4>
+
+		<a href="/dashboard">Dashboard</a> <a href="/menu">Menu</a> <a
+			href="/orders">Orders</a> <a href="/staff">Staff</a>
+	</div>
+
+	<!-- Content -->
+	<div class="content">
+
+		<div class="d-flex justify-content-between align-items-center mb-3">
+			<h2>Orders Management</h2>
+
+			<!-- Create Order Button -->
+			<button class="btn btn-primary" data-bs-toggle="modal"
+				data-bs-target="#orderModal">+ New Order</button>
+		</div>
+
+		<!-- Orders Table -->
+		<div class="card p-3 shadow-sm">
+			<table class="table table-hover">
+
+				<thead class="table-dark">
+					<tr>
+						<th>ID</th>
+						<th>Table</th>
+						<th>Status</th>
+						<th>Total</th>
+						<th>Actions</th>
+					</tr>
+				</thead>
+
+				<tbody>
+					<tr th:each="o : ${orders}">
+						<td th:text="${o.id}"></td>
+						<td th:text="${o.tableNumber}"></td>
+
+						<!-- Status Badge -->
+						<td><span th:if="${o.status == 'Pending'}"
+							class="badge bg-warning">Pending</span> <span
+							th:if="${o.status == 'Preparing'}" class="badge bg-primary">Preparing</span>
+							<span th:if="${o.status == 'Completed'}" class="badge bg-success">Completed</span>
+						</td>
+
+						<td>₹ <span th:text="${o.totalAmount}"></span></td>
+
+						<td><a th:href="@{/orders/status/{id}/Preparing(id=${o.id})}"
+							class="btn btn-sm btn-info">Prepare</a> <a
+							th:href="@{/orders/status/{id}/Completed(id=${o.id})}"
+							class="btn btn-sm btn-success">Done</a> <a
+							th:href="@{/orders/bill/{id}(id=${o.id})}"
+							class="btn btn-sm btn-dark">Bill</a> <a
+							th:href="@{/orders/delete/{id}(id=${o.id})}"
+							class="btn btn-sm btn-danger"
+							onclick="return confirm('Delete this order?')"> Delete </a></td>
+					</tr>
+				</tbody>
+
+			</table>
+		</div>
+
+	</div>
+
+	<div class="modal fade" id="orderModal">
+		<div class="modal-dialog">
+			<form th:action="@{/orders/create}" th:object="${order}"
+				method="post" class="modal-content p-3">
+
+				<h5>Create Order</h5>
+
+				<!-- Table -->
+				<input th:field="*{tableNumber}" class="form-control mb-2"
+					placeholder="Table Number">
+
+				<!-- Menu -->
+				<select th:field="*{items[0].menuItem.id}" class="form-control mb-2">
+					<option th:each="item : ${menuItems}" th:value="${item.id}"
+						th:text="${item.name}"></option>
+				</select>
+
+				<!-- Quantity -->
+				<input type="number" th:field="*{items[0].quantity}"
+					class="form-control mb-2" placeholder="Quantity">
+
+				<button class="btn btn-success">Create Order</button>
+
+			</form>
+		</div>
+	</div>
+
+	<!-- Bootstrap JS -->
+	<script
+		src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+</body>
+</html>
